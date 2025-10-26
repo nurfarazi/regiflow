@@ -2,21 +2,21 @@
 
 ### **Project Overview**
 
-Frontend for **RegiFlow** — built with **Angular 19** + **Material + TailwindCSS**.
-Provides separate experiences for **Suppliers** and **REG Admins** for data entry, verification, and tracking.
+Frontend for **RegiFlow** — built with **React 19** + **Vite + TailwindCSS**.
+Provides separate experiences for **Suppliers** and **REG Admins** for data entry, verification, and tracking with a shared component library.
 
 ---
 
 ### **Tech Stack**
 
-* **Framework:** Angular 19 (Standalone Components, Signals, Typed Forms)
-* **UI Library:** Angular Material + TailwindCSS
-* **State Management:** NgRx (for admin), Signals (for supplier)
-* **Routing:** Angular Router (role-based guards)
-* **Validation:** Reactive Forms
-* **HTTP:** Angular HttpClient + Interceptors (JWT)
-* **Build:** Vite or Angular CLI
-* **Deployment:** NGINX / Express static host
+* **Framework:** React 19 + Vite (SPA with code-split routes)
+* **UI + Styling:** TailwindCSS + Headless UI/Custom primitives
+* **State Management:** React Query (server cache) + Zustand (client state)
+* **Routing:** React Router v7 with protected layouts per role
+* **Forms & Validation:** React Hook Form + Zod schemas
+* **HTTP:** Fetch wrappers with JWT-aware interceptors
+* **Build/Tooling:** Vite + Vitest + Testing Library
+* **Deployment:** Static bundle via NGINX or Express
 
 ---
 
@@ -89,23 +89,23 @@ Provides separate experiences for **Suppliers** and **REG Admins** for data entr
 
 ### **Implementation Phases**
 
-**Phase 1: Supplier App**
+**Phase 1: Foundation + Supplier Portal**
 
-* Auth, Dashboard, Record Form, Photo Upload
-* Status badges and submit lock
+* Bootstrap Vite + Tailwind project structure
+* Implement auth shell, supplier dashboard, record form, photo upload
+* Integrate React Query + optimistic draft save
 
-**Phase 2: Admin App**
+**Phase 2: Admin Portal**
 
-* Admin Dashboard, Verify, Export, Import
-* Reusable record table component
-* Toasts, confirmations
+* Admin dashboards, verification queue, export/import workflows
+* Shared data table + filter components
+* Toast system, confirm modals, audit trails
 
-**Phase 3: Polish & CI**
+**Phase 3: Hardening & Delivery**
 
-* Responsive layout
-* Theme integration
-* Role-based routes
-* Dockerfile build
+* Role-based routing guards + refresh token handling
+* Responsive polish + accessibility sweep
+* Vitest/Test Library coverage + Dockerfile build
 
 ---
 
@@ -114,8 +114,11 @@ Provides separate experiences for **Suppliers** and **REG Admins** for data entr
 ```
 src/
  ├─ app/
- │   ├─ core/ (services, guards, interceptors)
- │   ├─ shared/ (components, pipes)
+ │   ├─ providers/ (query client, auth context)
+ │   ├─ hooks/
+ │   ├─ components/
+ │   │   ├─ ui/
+ │   │   └─ shared/
  │   ├─ features/
  │   │   ├─ auth/
  │   │   ├─ supplier/
@@ -126,18 +129,21 @@ src/
  │   │   │   ├─ verify/
  │   │   │   ├─ export/
  │   │   │   └─ import/
- │   ├─ app.routes.ts
- │   └─ app.component.ts
+ │   ├─ routes/
+ │   │   ├─ supplier.tsx
+ │   │   └─ admin.tsx
+ │   └─ main.tsx
  ├─ assets/
- ├─ environments/
- └─ main.ts
+ ├─ lib/
+ │   └─ api/
+ └─ tests/
 ```
 
 ---
 
 ### **API Integration**
 
-* `environment.apiBase = "https://api.regiflow.com"`
-* JWT added via `AuthInterceptor`
-* Global error handler for 401/403
-* Loading spinner and toast feedback system
+* `VITE_API_BASE = "https://api.regiflow.com"`
+* Fetch wrapper attaches JWT + retries refresh
+* React Query mutation lifecycle for optimistic updates
+* Global error boundary + toast feedback system
