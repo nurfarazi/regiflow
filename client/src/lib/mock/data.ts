@@ -1,0 +1,86 @@
+import type { AuditLogEntry, SupplierRecord } from '@/types/records';
+
+export const mockSupplierRecords: SupplierRecord[] = [
+  {
+    id: 'RF-001',
+    staffName: 'Amaka Obi',
+    employeeId: 'EMP-2301',
+    facility: 'Lagos General',
+    department: 'Oncology',
+    phone: '+234 812 203 9911',
+    email: 'a.obi@lagosgeneral.ng',
+    submittedAt: '2025-10-18T08:15:00Z',
+    updatedAt: '2025-10-21T11:45:00Z',
+    status: 'verified',
+    photoUrl: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=60',
+    history: [
+      { id: 'h1', status: 'draft', actor: 'Amaka Obi', timestamp: '2025-10-18T08:15:00Z' },
+      { id: 'h2', status: 'submitted', actor: 'Amaka Obi', timestamp: '2025-10-18T08:16:00Z' },
+      { id: 'h3', status: 'verified', actor: 'REG Admin', timestamp: '2025-10-21T11:45:00Z' },
+    ],
+  },
+  {
+    id: 'RF-002',
+    staffName: 'Femi Balogun',
+    employeeId: 'EMP-2302',
+    facility: 'Kano Specialist',
+    department: 'Pediatrics',
+    phone: '+234 809 884 2211',
+    email: 'f.balogun@kanospecialist.ng',
+    submittedAt: '2025-10-19T09:10:00Z',
+    updatedAt: '2025-10-22T14:23:00Z',
+    status: 'submitted',
+    history: [
+      { id: 'h1', status: 'draft', actor: 'Femi Balogun', timestamp: '2025-10-19T09:10:00Z' },
+      { id: 'h2', status: 'submitted', actor: 'Femi Balogun', timestamp: '2025-10-19T09:12:00Z' },
+    ],
+  },
+  {
+    id: 'RF-003',
+    staffName: 'Hauwa Sule',
+    employeeId: 'EMP-2290',
+    facility: 'Kaduna Trauma Center',
+    department: 'Emergency',
+    phone: '+234 701 882 1122',
+    email: 'h.sule@kadunatrauma.ng',
+    submittedAt: '2025-10-17T07:45:00Z',
+    updatedAt: '2025-10-20T15:05:00Z',
+    status: 'rejected',
+    rejectionReason: 'Passport photo does not meet background requirements',
+    history: [
+      { id: 'h1', status: 'draft', actor: 'Hauwa Sule', timestamp: '2025-10-17T07:45:00Z' },
+      { id: 'h2', status: 'submitted', actor: 'Hauwa Sule', timestamp: '2025-10-17T07:46:00Z' },
+      { id: 'h3', status: 'rejected', actor: 'REG Admin', timestamp: '2025-10-20T15:05:00Z', notes: 'Photo background not plain' },
+    ],
+  },
+];
+
+export const mockAuditLogs: AuditLogEntry[] = [
+  {
+    id: 'log-1',
+    actor: 'REG Admin',
+    role: 'admin',
+    action: 'Verified record',
+    status: 'verified',
+    timestamp: '2025-10-21T11:45:00Z',
+    meta: { recordId: 'RF-001' },
+  },
+  {
+    id: 'log-2',
+    actor: 'Kano Specialist',
+    role: 'supplier',
+    action: 'Submitted record',
+    status: 'submitted',
+    timestamp: '2025-10-19T09:12:00Z',
+    meta: { recordId: 'RF-002' },
+  },
+  {
+    id: 'log-3',
+    actor: 'REG Admin',
+    role: 'admin',
+    action: 'Rejected record',
+    status: 'rejected',
+    timestamp: '2025-10-20T15:05:00Z',
+    meta: { recordId: 'RF-003', reason: 'Invalid photo background' },
+  },
+];
